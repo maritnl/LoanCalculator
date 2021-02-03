@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LoanAPI.Domain.Models;
 using LoanAPI.Models;
 using LoanAPI.Domain.Interfaces;
+using Microsoft.AspNetCore.Cors;
 
 namespace LoanAPI.Controllers
 {
@@ -43,8 +44,9 @@ namespace LoanAPI.Controllers
             return loanType;
         }
 
-        [HttpGet("PaymentPlan/{type}")]
-        public async Task<ActionResult<List<double>>> CalculatePaymentPlan(String type, [FromQuery] int amount, [FromQuery] int years, [FromServices] IPaymentPlanService paymentPlanService)
+        [EnableCors("Allow8080")]
+        [HttpGet("PaymentPlan")]
+        public async Task<ActionResult<List<double>>> CalculatePaymentPlan([FromQuery] String type, [FromQuery] int amount, [FromQuery] int years, [FromServices] IPaymentPlanService paymentPlanService)
         {
             var loanType = await _context.LoanTypes.FirstOrDefaultAsync<LoanType>(l => l.type.Equals(type));
 
@@ -55,7 +57,7 @@ namespace LoanAPI.Controllers
 
             var paymentPlan = paymentPlanService.CalculateSeriesLoan(loanType.interest, amount, years);
 
-            return paymentPlan;
+            return Ok(paymentPlan);
         }
 
         // PUT: api/LoanTypes/5

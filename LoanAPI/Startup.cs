@@ -26,9 +26,17 @@ namespace LoanAPI
             services.AddScoped<IPaymentPlanService, PaymentPlanService>();
             services.AddDbContext<LoanTypeContext>(opt =>
                                                opt.UseInMemoryDatabase("LoanTypes"));
-            services.AddControllers();
 
-            
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Allow8080",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                        .AllowAnyHeader();
+                    });
+            });
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,9 +54,11 @@ namespace LoanAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
