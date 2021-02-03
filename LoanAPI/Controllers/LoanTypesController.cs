@@ -46,7 +46,7 @@ namespace LoanAPI.Controllers
 
         [EnableCors("Allow8080")]
         [HttpGet("PaymentPlan")]
-        public async Task<ActionResult<List<double>>> CalculatePaymentPlan([FromQuery] String type, [FromQuery] int amount, [FromQuery] int years, [FromServices] IPaymentPlanService paymentPlanService)
+        public async Task<ActionResult<List<Term>>> CalculatePaymentPlan([FromQuery] String type, [FromQuery] int amount, [FromQuery] int years, [FromServices] IPaymentPlanService paymentPlanService)
         {
             var loanType = await _context.LoanTypes.FirstOrDefaultAsync<LoanType>(l => l.type.Equals(type));
 

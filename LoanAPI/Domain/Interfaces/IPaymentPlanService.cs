@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using LoanAPI.Domain.Models;
 
 namespace LoanAPI.Domain.Interfaces
 {
     public interface IPaymentPlanService
     {
-        List<double> CalculateSeriesLoan(double interest, int amount, int years);
+        List<Term> CalculateSeriesLoan(double interest, int amount, int years);
     }
 }

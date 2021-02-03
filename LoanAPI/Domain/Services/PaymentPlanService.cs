@@ -1,28 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using LoanAPI.Domain.Interfaces;
+using LoanAPI.Domain.Models;
 
 namespace LoanAPI.Domain.Services
 {
     public class PaymentPlanService : IPaymentPlanService
     {
-        public List<double> CalculateSeriesLoan(double interest, int amount, int years)
+        public List<Term> CalculateSeriesLoan(double interest, int amount, int years)
         {
-			List<double> paymentPlan = new List<double>();
+			List<Term> paymentPlan = new List<Term>();
 			double amountLeft = amount;
-			int terminer = years * 12;
-			int monthsLeft = terminer;
+			int terms = years * 12;
+			int monthsLeft = terms;
 			double interestPercent = interest / 100;
-			double avdrag = amount / terminer;
+			double installment = amount / terms;
 
 			for (int i = 0; i < monthsLeft; i++)
 			{
-				double renter = amountLeft * (interestPercent / 12);
-				double payment = renter + avdrag;
+				double amountInterest = amountLeft * (interestPercent / 12);
+				double payment = amountInterest + installment;
 
-				paymentPlan.Add(Math.Round(payment, MidpointRounding.AwayFromZero));
+                Term term = new Term
+				{
+					Id = i + 1,
+					Amount = Math.Round(payment, MidpointRounding.AwayFromZero),
+					Installment = Math.Round(installment, MidpointRounding.AwayFromZero),
+					Interest = Math.Round(amountInterest, MidpointRounding.AwayFromZero)
 
-				amountLeft -= avdrag;
+
+				};
+
+                paymentPlan.Add(term);
+
+				amountLeft -= installment;
 			}
 
 			return paymentPlan;
