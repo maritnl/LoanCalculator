@@ -1,17 +1,29 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <mdb-container>
+    <mdb-row>
+      <mdb-col class="col">
+        <LoanForm/>
+      </mdb-col>
+    <mdb-col class="col">
+      <PaymentPlan/>
+    </mdb-col>
+    </mdb-row>
+  </mdb-container>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import LoanForm from './components/LoanForm.vue'
+import PaymentPlan from './components/PaymentPlan.vue'
+import { mdbContainer, mdbRow, mdbCol } from 'mdbvue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    LoanForm,
+    PaymentPlan,
+    mdbContainer,
+    mdbRow,
+    mdbCol
   }
 }
 </script>
@@ -24,5 +36,27 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  align-items: center;
+  justify-content: center;
 }
+
+html, body {
+    height:100%;
+}
+
+.container {
+  height: 100%;
+  padding: 50px 0px 50px;
+}
+
+.row {
+  height: 100%;
+  align-items: center;
+}
+
+.col{
+  max-height: 100%;
+  overflow: auto;
+}
+
 </style>
