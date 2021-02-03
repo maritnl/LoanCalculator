@@ -48,7 +48,7 @@ namespace LoanAPI.Controllers
         [HttpGet("PaymentPlan")]
         public async Task<ActionResult<List<Term>>> CalculatePaymentPlan([FromQuery] String type, [FromQuery] int amount, [FromQuery] int years, [FromServices] IPaymentPlanService paymentPlanService)
         {
-            var loanType = await _context.LoanTypes.FirstOrDefaultAsync<LoanType>(l => l.type.Equals(type));
+            var loanType = await _context.LoanTypes.FirstOrDefaultAsync<LoanType>(l => l.Type.Equals(type));
 
             if (loanType == null)
             {
@@ -66,7 +66,7 @@ namespace LoanAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLoanType(long id, LoanType loanType)
         {
-            if (id != loanType.id)
+            if (id != loanType.Id)
             {
                 return BadRequest();
             }
@@ -101,7 +101,7 @@ namespace LoanAPI.Controllers
             _context.LoanTypes.Add(loanType);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetLoanType", new { id = loanType.id }, loanType);
+            return CreatedAtAction("GetLoanType", new { id = loanType.Id }, loanType);
         }
 
         // DELETE: api/LoanTypes/5
@@ -122,7 +122,7 @@ namespace LoanAPI.Controllers
 
         private bool LoanTypeExists(long id)
         {
-            return _context.LoanTypes.Any(e => e.id == id);
+            return _context.LoanTypes.Any(e => e.Id == id);
         }
     }
 }
