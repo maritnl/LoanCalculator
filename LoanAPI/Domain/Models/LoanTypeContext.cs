@@ -15,8 +15,10 @@ namespace LoanAPI.Domain.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<LoanType>().HasData(
-                new LoanType { Id = 1, Type = "housing", Interest = 5 },
-                new LoanType { Id = 2, Type = "spending", Interest = 12.7 });
+                new LoanType { Id = 1, Type = "housing", Interest = 3.5 },
+                new LoanType { Id = 2, Type = "spending", Interest = 12.7 },
+                new LoanType { Id = 3, Type = "car", Interest = 6 });
         }
     }
+    
 }

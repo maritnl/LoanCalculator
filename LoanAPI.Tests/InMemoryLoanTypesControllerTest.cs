@@ -19,10 +19,10 @@ namespace LoanAPI.Tests
         {
         }
 
-        /* Fails for some reason
+    
 
          [Fact]
-         public async void Can_get_items()
+         public async void GetAll()
          {
              using (var context = new LoanTypeContext(ContextOptions))
              {
@@ -36,7 +36,7 @@ namespace LoanAPI.Tests
 
             }
         }
-        */
+        
 
         [Fact]
         public async void GetById()
@@ -63,7 +63,7 @@ namespace LoanAPI.Tests
                 var items = await controller.GetLoanTypeByType("car");
                 var result = items.Value;
 
-                Assert.Equal(5.9, result.Interest);
+                Assert.Equal(6, result.Interest);
 
             }
         }
