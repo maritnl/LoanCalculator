@@ -44,6 +44,21 @@ namespace LoanAPI.Controllers
             return loanType;
         }
 
+        // GET: api/LoanTypes/5
+        [HttpGet("Type/{type}")]
+        public async Task<ActionResult<LoanType>> GetLoanTypeByType(String type)
+        {
+            var loanType = await _context.LoanTypes.FirstOrDefaultAsync<LoanType>(l => l.Type.Equals(type));
+
+            if (loanType == null)
+            {
+                return NotFound();
+            }
+
+            return loanType;
+        }
+
+
         [EnableCors("Allow8080")]
         [HttpGet("PaymentPlan")]
         public async Task<ActionResult<List<Term>>> CalculatePaymentPlan([FromQuery] String type, [FromQuery] int amount, [FromQuery] int years, [FromServices] IPaymentPlanService paymentPlanService)
@@ -55,7 +70,7 @@ namespace LoanAPI.Controllers
                 return NotFound();
             }
 
-            var paymentPlan = paymentPlanService.CalculateSeriesLoan(loanType.interest, amount, years);
+            var paymentPlan = paymentPlanService.CalculateSeriesLoan(loanType.Interest, amount, years);
 
             return Ok(paymentPlan);
         }
