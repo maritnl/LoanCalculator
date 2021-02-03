@@ -54,6 +54,21 @@ namespace LoanAPI.Tests
         }
 
         [Fact]
+        public async void GetById_UnknownID_Returns404()
+        {
+            using (var context = new LoanTypeContext(ContextOptions))
+            {
+                var controller = new LoanTypesController(context);
+
+                var item = await controller.GetLoanType(50);
+                var result = item.Value;
+
+                Assert.IsType<NotFoundResult>(item.Result);
+
+            }
+        }
+
+        [Fact]
         public async void GetByType()
         {
             using (var context = new LoanTypeContext(ContextOptions))
@@ -69,7 +84,7 @@ namespace LoanAPI.Tests
         }
 
         [Fact]
-        public async void PostLoan_ConfirmLoanAddedToDatabase()
+        public async void PostLoan_ReturnsLoanType()
         {
             using (var context = new LoanTypeContext(ContextOptions))
             {
@@ -82,16 +97,16 @@ namespace LoanAPI.Tests
 
                 };
 
-                _ = await controller.PostLoanType(l);
-                var res = await controller.GetLoanTypeByType("credit");
-                var result = res.Value;
+                var res = await controller.PostLoanType(l);
+                var createdRes = Assert.IsType<CreatedAtActionResult>(res.Result);
+                var result = Assert.IsType<LoanType>(createdRes.Value);
 
-                Assert.Equal(17, result.Interest);
+                Assert.Equal("credit", result.Type);
 
             }
-        
 
-        } 
+
+        }
 
     }
 }
